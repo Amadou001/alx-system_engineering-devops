@@ -1,6 +1,2 @@
-<<<<<<< HEAD
-
-=======
 #!/bin/bash
 echo 'hello, world'
->>>>>>> 978c208 (Scripts)
