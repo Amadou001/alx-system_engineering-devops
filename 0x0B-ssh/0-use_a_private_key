@@ -5,8 +5,5 @@
 # Define the server address
 SERVER_ADDRESS="54.144.139.236"
 
-# Define the path to the private key
-PRIVATE_KEY_PATH="~/.ssh/school"
-
 # Use SSH with single-character flags to connect to the server
-ssh -i $PRIVATE_KEY_PATH ubuntu@$SERVER_ADDRESS
+ssh -i "~/.ssh/school" ubuntu@$SERVER_ADDRESS
