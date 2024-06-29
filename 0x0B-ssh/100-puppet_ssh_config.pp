@@ -1,5 +1,5 @@
 # Ensure SSH client configuration file exists
-file { '/home/ubuntu/.ssh/config':  # Adjust path as necessary
+file { '~/.ssh/config':  # Adjust path as necessary
   ensure  => file,
   content => "
     # Configuration for specific host
