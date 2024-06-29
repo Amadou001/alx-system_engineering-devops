@@ -1,0 +1,5 @@
+# Configuration of the local SSH file
+HostName 54.144.139.236  # Replace with your server's IP address or hostname
+User ubuntu               # Replace with your remote username
+IdentityFile ~/.ssh/school
+PasswordAuthentication no
