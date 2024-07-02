@@ -1,9 +1,17 @@
 #!/usr/bin/env bash
 # Transfers a file from our client to a server
 
+# Check if the number of arguments is less than 4
 if [ $# -lt 4 ]; then
     echo "Usage: $0 PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY"
     exit 1
 fi
 
-scp -i "$4" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$1" "$3@$2:~/"
+# Assign parameters to variables for readability
+FILE_PATH=$1
+SERVER_IP=$2
+USERNAME=$3
+SSH_KEY_PATH=$4
+
+# Use scp to transfer the file to the user's home directory on the server
+scp -i "$SSH_KEY_PATH" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$FILE_PATH" "$USERNAME@$SERVER_IP:~/"
