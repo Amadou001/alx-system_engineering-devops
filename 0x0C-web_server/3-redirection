@@ -1,31 +1,57 @@
 #!/usr/bin/env bash
-# Configures a new ubuntu machine by installing
+# Configures a new Ubuntu machine by installing
 # Nginx where it should be listening on port 80
 # Serve a page that would return a Hello World string
+# Configure your Nginx server so that /redirect_me is redirecting to another page with a 301 status
 
-sudo apt-get update -y -qq && \
-         sudo apt-get install nginx -y
+# Update package index and install nginx
+sudo apt-get update
+sudo apt-get -y install nginx
 
-echo -e "\nSetting up some minor stuff.\n"
-
-# starting nginx service
-sudo service nginx start
-
-# allowing nginx on firewall
+# Allow nginx through the firewall
 sudo ufw allow 'Nginx HTTP'
 
-# Give the user ownership to website files for easy editing
-sudo chown -R "$USER":"$USER" /var/www/html
+# Ensure web root directory exists and set permissions
+sudo mkdir -p /var/www/html
 sudo chmod -R 755 /var/www
 
-# Backup default index
-cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
+# Create a simple "Hello World!" index.html file
+echo 'Hello World!' | sudo tee /var/www/html/index.html > /dev/null
 
-# Creating new index
-echo -e "Hello World!" > /var/www/html/index.nginx-debian.html
+# Define the nginx server configuration including redirection
+SERVER_CONFIG="
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
 
-# Setting up /redirect_me to a youtube video
-sudo sed -i '24i\       rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
 
-# Restarting nginx
-sudo service nginx restart
+    server_name _;
+
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
+
+    location /redirect_me {
+        return 301 http://example.com/new_page;
+    }
+}
+"
+
+# Update the nginx default site configuration
+echo "$SERVER_CONFIG" | sudo tee /etc/nginx/sites-available/default > /dev/null
+sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
+
+# Test nginx configuration
+if sudo nginx -t; then
+    # Check if nginx is running and restart or start accordingly
+    if [ "$(pgrep -c nginx)" -le 0 ]; then
+        sudo service nginx start
+    else
+        sudo service nginx reload
+    fi
+else
+    echo "nginx configuration test failed."
+    exit 1
+fi
