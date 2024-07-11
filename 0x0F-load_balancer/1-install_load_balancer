@@ -1,63 +1,24 @@
 #!/usr/bin/env bash
+# Installs HAProxy with the following configurations:
+# - Enables management via the init script.
+# - Distributes requests using a round-robin algorithm.
 
-# Update package index and install HAProxy
-sudo apt-get update
-sudo apt-get -y install haproxy
+sudo apt-get install -y haproxy
 
-# Backup the original HAProxy configuration file
-sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.bak
+echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
 
-# Define the HAProxy configuration
-HAPROXY_CONFIG="
-global
-    log /dev/log    local0
-    log /dev/log    local1 notice
-    chroot /var/lib/haproxy
-    stats socket /run/haproxy/admin.sock mode 660 level admin expose-fd listeners
-    stats timeout 30s
-    user haproxy
-    group haproxy
-    daemon
+cat <<EOT | sudo tee -a /etc/haproxy/haproxy.cfg
+frontend Randommallstudio.tech
+    timeout client  30000
+    bind 0:80
+    default_backend Randommallstudio.tech_backend
 
-defaults
-    log     global
-    mode    http
-    option  httplog
-    option  dontlognull
-    timeout connect 5000ms
-    timeout client  50000ms
-    timeout server  50000ms
-    errorfile 400 /etc/haproxy/errors/400.http
-    errorfile 403 /etc/haproxy/errors/403.http
-    errorfile 408 /etc/haproxy/errors/408.http
-    errorfile 500 /etc/haproxy/errors/500.http
-    errorfile 502 /etc/haproxy/errors/502.http
-    errorfile 503 /etc/haproxy/errors/503.http
-    errorfile 504 /etc/haproxy/errors/504.http
-
-frontend http_front
-    bind *:80
-    default_backend http_back
-
-backend http_back
+backend Randommallstudio.tech_backend
+    timeout connect  3000
+    timeout server  30000
     balance roundrobin
-    server web-01 web-01.example.com:80 check
-    server web-02 web-02.example.com:80 check
+    server 218560-web-01 54.87.224.2:80 check
+    server 218560-web-02 54.89.109.20:80 check
+EOT
 
-listen stats
-    bind *:8080
-    stats enable
-    stats uri /stats
-    stats refresh 10s
-    stats auth admin:password
-"
-
-# Replace the HAProxy configuration file with the new configuration
-echo "$HAPROXY_CONFIG" | sudo tee /etc/haproxy/haproxy.cfg > /dev/null
-
-# Enable and start HAProxy service
-sudo systemctl enable haproxy
-sudo systemctl restart haproxy
-
-# Verify the status of HAProxy service
-sudo systemctl status haproxy
+sudo service haproxy restart
