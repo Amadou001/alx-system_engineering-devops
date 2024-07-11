@@ -2,6 +2,7 @@
 # Install and configure HAproxy on your lb-01 server
 # Configure HAproxy so that it send traffic to web-01 and web-02
 # Update package index and install HAProxy
+
 sudo apt-get update
 sudo apt-get install -y haproxy
 
@@ -64,3 +65,5 @@ echo "$HAPROXY_CONFIG" | sudo tee /etc/haproxy/haproxy.cfg > /dev/null
 
 # Restart HAProxy service
 sudo systemctl restart haproxy
+# Verify the status of HAProxy service
+sudo systemctl status haproxy
