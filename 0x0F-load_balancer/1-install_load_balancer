@@ -63,6 +63,3 @@ echo "$HAPROXY_CONFIG" | sudo tee /etc/haproxy/haproxy.cfg > /dev/null
 
 # Restart HAProxy service
 sudo systemctl restart haproxy
-
-# Verify the status of HAProxy service
-sudo systemctl status haproxy
