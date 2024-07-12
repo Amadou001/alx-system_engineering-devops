@@ -24,4 +24,4 @@ At the end of this project, you are expected to be able to explain to anyone, wi
 * `awk`
 * `dig`
 
-[HTTPS](https://s3.amazonaws.com/intranet-projects-files/holbertonschool-sysadmin_devops/276/FlhGPEK.png)
+![HTTPS](https://s3.amazonaws.com/intranet-projects-files/holbertonschool-sysadmin_devops/276/FlhGPEK.png)
