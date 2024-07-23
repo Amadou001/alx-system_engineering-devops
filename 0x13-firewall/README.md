@@ -35,6 +35,9 @@ Note that the school network is filtering outgoing connections (via a network-ba
 
 <br>
 
+## Your servers without a firewall…
+![](https://s3.amazonaws.com/intranet-projects-files/holbertonschool-sysadmin_devops/155/holbertonschool-firewall.gif)
+
 # Warning!
 **Containers on demand cannot be used for this project (Docker container limitation)**
 
