@@ -42,4 +42,4 @@ Be very careful with firewall rules! For instance, if you ever deny port `22/TCP
 
 <br>
 
-[Firewall](https://s3.amazonaws.com/intranet-projects-files/holbertonschool-sysadmin_devops/284/V1HjQ1Y.png)
+![Firewall](https://s3.amazonaws.com/intranet-projects-files/holbertonschool-sysadmin_devops/284/V1HjQ1Y.png)
