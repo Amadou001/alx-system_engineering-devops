@@ -5,8 +5,10 @@
 
 ## More Info
 **Install** 'puppet-lint'
-'''apt-get install -y ruby
-gem install puppet-lint -v 2.1.1'''
+'''
+apt-get install -y ruby
+gem install puppet-lint -v 2.1.1
+'''
 
 # Background Context
 When debugging, sometimes logs are not enough. Either because the software is breaking in a way that was not expected and the error is not being logged, or because logs are not providing enough information. In this case, you will need to go down the stack, the good news is that this is something Holberton students can do :)
